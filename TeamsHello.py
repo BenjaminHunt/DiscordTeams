@@ -9,16 +9,15 @@ TOKEN = sys.argv[1]
 print("Token: " + TOKEN)
 
 client = discord.Client()
+global teams, games
 teams = []
 games = []
 
 BOT_PREFIX = ('?', '!')
 bot = commands.Bot(command_prefix=BOT_PREFIX, description="Teams & Leagues Bot!")
 
-@bot.command()
-async def add(left: int, right: int):
-    """Adds two numbers together."""
-    await bot.say(left + right)
+
+############################################## COMMANDS ##############################################
 
 @bot.command(brief="Repeats your message", pass_context=True)
 async def hello(context):
@@ -37,22 +36,26 @@ async def newteam(context):
 
     team = Team(name=team, members=members)
     msg = ('New Team Created!\n' + team.to_s())
+
+    global teams
+    teams = teams + [team]
+
     await bot.say(msg)
 
 #!newmatch <team1>, <team2>, <mon d yyyy hh:mm(AM/PM)>, <location>
-@bot.command(pass_context=True, brief="Schedule a new match.")
+@bot.command(name="newmatch",
+             aliases = ["newgame"],
+             brief="Schedule a new match.",
+             pass_context=True)
 async def newmatch(context):
     array = message_to_array(context.message.content)
     match = Match(array[0], array[1], array[2], array[3])
     msg = 'New Match Created!\n' + match.to_s()
+    global games
+    games = games = [match]
     await bot.say(msg)
 
-@client.event
-async def on_ready():
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
+#####################################################################################################
 
 @bot.event
 async def on_ready():

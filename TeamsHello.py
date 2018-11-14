@@ -23,9 +23,11 @@ bot = commands.Bot(command_prefix=BOT_PREFIX, description="Teams & Leagues Bot!"
 async def hello(context):
     await bot.say('Hello ' + context.message.author.mention)
 
+
 @bot.command(pass_context=True)
 async def repeat(ctx):
     await bot.say(ctx.message.content)
+
 
 #!newteam <team name>, member1, member2, ..., membern
 @bot.command(pass_context=True, brief="Creates a new team with 0..n players")
@@ -42,6 +44,7 @@ async def newteam(context):
 
     await bot.say(msg)
 
+
 #!newmatch <team1>, <team2>, <mon d yyyy hh:mm(AM/PM)>, <location>
 @bot.command(name="newmatch",
              aliases = ["newgame"],
@@ -55,6 +58,21 @@ async def newmatch(context):
     games = games = [match]
     await bot.say(msg)
 
+
+@bot.command(name="listteams",
+             aliases=["allteams", "showteams", "teams"],
+             brief="lists all teams in the league",
+             pass_context=False)
+async def listteams():
+    global teams
+    str = "Teams: \n"
+    if len(teams) == 0:
+        return str + "There are no teams in this league!"
+    for team in teams:
+        str += team.name + ", "
+    str = str.rstrip(", ")
+    await bot.say(str)
+
 #####################################################################################################
 
 @bot.event
@@ -63,6 +81,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('------')
+
 
 def message_to_array(message):
     array = message.split(",")
@@ -74,5 +93,6 @@ def message_to_array(message):
         array[i] = array[i].strip()
         i += 1
     return array
+
 
 bot.run(TOKEN)

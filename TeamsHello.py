@@ -67,13 +67,14 @@ async def newmatch(context):
              pass_context=False)
 async def listteams():
     global teams
-    str = "Teams: \n"
     if len(teams) == 0:
-        await bot.say(str + "There are no teams in this league!")
-    for team in teams:
-        str += team.name + ", "
-    str = str.rstrip(", ")
-    await bot.say(str)
+        await bot.say("There are no teams in this league!")
+    else:
+        str = "Teams: \n"
+        for team in teams:
+            str += team.name + ", "
+        str = str.rstrip(", ")
+        await bot.say(str)
 
 #####################################################################################################
 

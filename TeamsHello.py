@@ -8,7 +8,6 @@ from Team import Team
 TOKEN = sys.argv[1]
 print("Token: " + TOKEN)
 
-client = discord.Client()
 global teams, games
 teams = []
 games = []
@@ -23,6 +22,9 @@ bot = commands.Bot(command_prefix=BOT_PREFIX, description="Teams & Leagues Bot!"
 async def hello(context):
     await bot.say('Hello ' + context.message.author.mention)
 
+@bot.command(brief="test random things")
+async def test():
+    await bot.say("<@302079469882179585>" + " --called out.")
 
 @bot.command(pass_context=True)
 async def repeat(ctx):
@@ -67,7 +69,7 @@ async def listteams():
     global teams
     str = "Teams: \n"
     if len(teams) == 0:
-        return str + "There are no teams in this league!"
+        await bot.say(str + "There are no teams in this league!")
     for team in teams:
         str += team.name + ", "
     str = str.rstrip(", ")

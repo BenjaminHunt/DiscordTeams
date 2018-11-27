@@ -1,0 +1,17 @@
+TO DO:
+- Link players of teams to actual discord members
+- Point calulations
+- Standings Generation
+- Playoff bracket
+    - !start playoffs (limit permissions) to create bracket, and begin playoffs
+        - precondition: all regular season games must be complete (or tied due to no report given)
+- Add players to team
+- Remove players from team
+- Add brief and description to all bot commands
+- !myteam to display details of the invoker's team (name, teammates, record, points, place in standings)
+- Report score of game
+
+Done:
+- Create Team
+- Create Match
+- List teams

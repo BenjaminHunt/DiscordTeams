@@ -1,7 +1,7 @@
 TO DO:
 - Make teams into discord groups upon creation
 - Link players of teams to actual discord members
-- Point calulations
+- Point calculations
 - Standings Generation
 - Playoff bracket
     - !start playoffs (limit permissions) to create bracket, and begin playoffs

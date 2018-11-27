@@ -1,6 +1,7 @@
 from Team import Team
 from datetime import datetime
 
+
 class Match:
     def __init__(self, home, away, dt, location):
         self.home = home

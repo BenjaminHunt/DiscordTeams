@@ -1,6 +1,5 @@
 # Work with Python 3.6
 import sys
-import discord
 from discord.ext import commands
 from Season import Match
 from Team import Team
@@ -16,7 +15,7 @@ BOT_PREFIX = ('?', '!')
 bot = commands.Bot(command_prefix=BOT_PREFIX, description="Teams & Leagues Bot!")
 
 
-############################################## COMMANDS ##############################################
+# ############################################# COMMANDS ##############################################
 
 @bot.command(brief="Repeats your message", pass_context=True)
 async def hello(context):
@@ -31,7 +30,7 @@ async def repeat(ctx):
     await bot.say(ctx.message.content)
 
 
-#!newteam <team name>, member1, member2, ..., membern
+# !newteam <team name>, member1, member2, ..., membern
 @bot.command(pass_context=True, brief="Creates a new team with 0..n players")
 async def newteam(context):
     array = message_to_array(context.message.content)
@@ -47,7 +46,7 @@ async def newteam(context):
     await bot.say(msg)
 
 
-#!newmatch <team1>, <team2>, <mon d yyyy hh:mm(AM/PM)>, <location>
+# !newmatch <team1>, <team2>, <mon d yyyy hh:mm(AM/PM)>, <location>
 @bot.command(name="newmatch",
              aliases = ["newgame"],
              brief="Schedule a new match.",
@@ -76,7 +75,7 @@ async def listteams():
         str = str.rstrip(", ")
         await bot.say(str)
 
-#####################################################################################################
+# ####################################################################################################
 
 @bot.event
 async def on_ready():

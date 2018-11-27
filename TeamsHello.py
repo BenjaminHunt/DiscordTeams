@@ -21,9 +21,11 @@ bot = commands.Bot(command_prefix=BOT_PREFIX, description="Teams & Leagues Bot!"
 async def hello(context):
     await bot.say('Hello ' + context.message.author.mention)
 
+
 @bot.command(brief="test random things")
 async def test():
     await bot.say("<@302079469882179585>" + " --called out.")
+
 
 @bot.command(pass_context=True)
 async def repeat(ctx):
@@ -76,6 +78,7 @@ async def listteams():
         await bot.say(str)
 
 # ####################################################################################################
+
 
 @bot.event
 async def on_ready():

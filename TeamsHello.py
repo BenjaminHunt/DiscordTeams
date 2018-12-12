@@ -77,6 +77,15 @@ async def listteams():
         str = str.rstrip(", ")
         await bot.say(str)
 
+
+@bot.command(name="allmembers",
+             brief="list and mention all members in server")
+async def allmembers():
+    members = bot.get_all_members()
+    for member in members:
+        await bot.say(member.mention)
+
+
 # ####################################################################################################
 
 

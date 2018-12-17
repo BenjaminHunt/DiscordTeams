@@ -55,7 +55,7 @@ async def newteam(context):
              pass_context=True)
 async def newmatch(context):
     array = message_to_array(context.message.content)
-    match = Match(array[0], array[1], array[2], array[3])
+    match = Match(1, array[0], array[1], array[2], array[3])  # generate id for reporting score
     msg = 'New Match Created!\n' + match.to_s()
     global games
     games = games = [match]

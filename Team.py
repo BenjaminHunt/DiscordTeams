@@ -9,7 +9,7 @@ class Team:
     def to_s(self):
         str = "Team: " + self.name
         str += "\nMembers: "
-        if len(self.members)>0:
+        if len(self.members) > 0:
             str += ', '.join(self.members)
         else:
             str += "[None]"

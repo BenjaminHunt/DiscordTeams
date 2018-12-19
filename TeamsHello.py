@@ -1,18 +1,21 @@
 # Work with Python 3.6
 import sys
 from discord.ext import commands
+from discord import Server
 from Season import Match
 from Team import Team
 
 TOKEN = sys.argv[1]
 print("Token: " + TOKEN)
 
-global teams, games
+global teams, games, people
 teams = []
 games = []
+people = []
 
 BOT_PREFIX = ('?', '!')
 bot = commands.Bot(command_prefix=BOT_PREFIX, description="Teams & Leagues Bot!")
+server = Server()
 
 
 # ############################################# COMMANDS ##############################################
@@ -78,15 +81,31 @@ async def listteams():
         await bot.say(str)
 
 
-@bot.command(name="allmembers",
+@bot.command(name="writeallmembers",
              brief="list and mention all members in server")
-async def allmembers():
+async def writeallmembers():
     members = bot.get_all_members()
     for member in members:
-        await bot.say(member.mention)
+        #await bot.say(member.mention)  # member.mention mentions member (@)
+        global people
+        people += [member]
+    printMembers()
 
+def printMembers():
+    global people
+    for member in people:
+        print(member)
 
 # ####################################################################################################
+
+
+# THIS FUNCTION BROKEN
+@bot.command(name="callben",
+             passcontext=True,
+             brief="@ben")
+async def callben(context):
+    await bot.say(server.get_member_named("nullidea#3117").mention)  # This doesn't work!
+    # await bot.say(context.message.author.server.get_member_named("nullidea#3117").mention)
 
 
 @bot.event

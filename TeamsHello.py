@@ -5,17 +5,16 @@ from discord import Server
 from Season import Match
 from Team import Team
 
-TOKEN = sys.argv[1]
-print("Token: " + TOKEN)
-
 global teams, games, people
 teams = []
 games = []
 people = []
 
+TOKEN = sys.argv[1]
+print("Token: " + TOKEN)
+
 BOT_PREFIX = ('?', '!')
 bot = commands.Bot(command_prefix=BOT_PREFIX, description="Teams & Leagues Bot!")
-server = Server()
 
 
 # ############################################# COMMANDS ##############################################
@@ -37,7 +36,7 @@ async def repeat(ctx):
 
 # !newteam <team name>, member1, member2, ..., membern
 @bot.command(pass_context=True, brief="Creates a new team with 0..n players")
-async def newteam(context):
+async def new_team(context):
     array = message_to_array(context.message.content)
     team = array[0]
     members = array[1:]
@@ -53,10 +52,10 @@ async def newteam(context):
 
 # !newmatch <team1>, <team2>, <mon d yyyy hh:mm(AM/PM)>, <location>
 @bot.command(name="newmatch",
-             aliases = ["newgame"],
+             aliases=["newgame"],
              brief="Schedule a new match.",
              pass_context=True)
-async def newmatch(context):
+async def new_match(context):
     array = message_to_array(context.message.content)
     match = Match(1, array[0], array[1], array[2], array[3])  # generate id for reporting score
     msg = 'New Match Created!\n' + match.to_s()
@@ -69,7 +68,7 @@ async def newmatch(context):
              aliases=["allteams", "showteams", "teams"],
              brief="lists all teams in the league",
              pass_context=False)
-async def listteams():
+async def list_teams():
     global teams
     if len(teams) == 0:
         await bot.say("There are no teams in this league!")
@@ -81,32 +80,25 @@ async def listteams():
         await bot.say(str)
 
 
-@bot.command(name="writeallmembers",
+@bot.command(name="callben",
+             pass_context=True,
+             brief="@ben")
+async def call_ben(context):
+    server = context.message.author.server  # Access server class
+    await bot.say(server.get_member_named("nullidea#3117").mention)
+
+
+@bot.command(name="printallmembers",
              brief="list and mention all members in server")
-async def writeallmembers():
+async def print_all_members():
     members = bot.get_all_members()
     for member in members:
-        #await bot.say(member.mention)  # member.mention mentions member (@)
+        await bot.say(member)  # member.mention mentions member (@)
         global people
         people += [member]
-    printMembers()
 
-def printMembers():
-    global people
-    for member in people:
-        print(member)
 
 # ####################################################################################################
-
-
-# THIS FUNCTION BROKEN
-@bot.command(name="callben",
-             passcontext=True,
-             brief="@ben")
-async def callben(context):
-    await bot.say(server.get_member_named("nullidea#3117").mention)  # This doesn't work!
-    # await bot.say(context.message.author.server.get_member_named("nullidea#3117").mention)
-
 
 @bot.event
 async def on_ready():
@@ -126,6 +118,5 @@ def message_to_array(message):
         array[i] = array[i].strip()
         i += 1
     return array
-
 
 bot.run(TOKEN)

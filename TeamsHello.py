@@ -24,34 +24,38 @@ async def hello(context):
 
 
 # !newteam <team name>, member1, member2, ..., membern
-@bot.command(pass_context=True,
+@bot.command(name="newteam",
+             pass_context=True,
              brief="Creates a new team with 0..n players",
-             description="!newteam makes a new team with a set number of team players." +
+             description="!newteam makes a new team with a set number of team players, and creates a new role for" +
+                         " the team that can be mentioned (or called) to notify all team members." +
                          " Adding team players are optional, but highly encouraged." +
                          " Players may be added or removed from a team with the !addplayer or !removeplayer commands." +
                          " Team members must be part of the discord server." +
                          "\n\nFormat: !newteam <team name>, <member-1>, <member-2>, ..., <member-n>")
-async def newteam(context):
+async def new_team(context):
     server = context.message.author.server
     array = message_to_array(context.message.content)
     teamname = array[0]
     members = []
     invalid = []
 
+    role = await bot.create_role(server=server, name=teamname, hoist=True, mentionable=True)  # permissions, color
+
     for member in array[1:]:
-        if server.get_member_named(member) is not None:  # check if valid member in the server
+        if server.get_member_named(member) is not None:
             members = members + [member]
+            await bot.add_roles(server.get_member_named(member), role)  # for each member
         else:
             invalid += [member]
-
-        invalid_response = ""
         if len(invalid) == 1:
             invalid_response = (invalid[0] + " is not a valid discord member tag.")
         elif len(invalid) > 1:
             invalid_response = ', '.join(invalid)
             invalid_response += " are not valid discord member tags."
 
-    await bot.say(invalid_response)
+    if invalid is not []:
+        await bot.say(invalid_response)
 
     team = Team(name=teamname, members=members)  # members=members)
     msg = ('New Team Created!\n' + team.to_s())
@@ -60,6 +64,17 @@ async def newteam(context):
     teams = teams + [team]
 
     await bot.say(msg)
+
+
+@bot.command(name="roles",
+             aliases=["teamroles"],
+             brief="Create a new role, add user to it. This will be removed",
+             pass_context=True)
+async def show_roles(context):
+    server = context.message.author.server
+    roles = server.roles  # ', '.join(server.roles)
+    roles = roles[1:]
+    await bot.say("Roles: {}".format(", ".join(map(str, roles))))
 
 
 # !newmatch <team1>, <team2>, <mon d yyyy hh:mm(AM/PM)>, <location>
@@ -92,6 +107,7 @@ async def list_teams():
             str += team.name + ", "
         str = str.rstrip(", ")
         await bot.say(str)
+
 
 @bot.command(name="myteam",
              aliases=["whichteam"],

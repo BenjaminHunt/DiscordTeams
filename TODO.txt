@@ -1,6 +1,6 @@
 TO DO:
-- Make teams into discord groups upon creation (roles)
-    - make add or remove from team, add or remove the associated role
+- Delete Team
+    - delete associated role
 - Point calculations
 - Standings Generation
 - Playoff bracket
@@ -24,6 +24,7 @@ Continuous:
 Done:
 - Create Team
     - Team members must be valid names in channel (i.e. nullidea#3117)
+    - Create a role for the team, add members to the role
 - Create Match
 - List teams
 - !myteam to display details of the invoker's team (name, teammates, record, points, place in standings)
@@ -39,3 +40,5 @@ Reach/Low-priority goals:
     - Season has Teams, (Conferences, maybe?), and Matches
     - !nextseason/!newseason would start a new season with the same conferences/teams
         - Either pass conferences/teams individually, or pass previous season and pull all needed information
+    - Point scoring - Wins worth x-points, Ties worth y-points, Losses worth 0 points
+    - Match & Game WLTs

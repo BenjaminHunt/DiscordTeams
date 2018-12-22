@@ -1,7 +1,11 @@
+import array
+from discord.ext import commands
+
+
 class Team:
     def __init__(self, name, members):
         self.name = name
-        self.members = members #array
+        self.members = members
         self.wins = 0
         self.losses = 0
         self.ties = 0

@@ -1,7 +1,6 @@
 # Work with Python 3.6
 import sys
 from discord.ext import commands
-from discord import Server
 from Season import Match
 from Team import Team
 
@@ -36,12 +35,30 @@ async def repeat(ctx):
 
 # !newteam <team name>, member1, member2, ..., membern
 @bot.command(pass_context=True, brief="Creates a new team with 0..n players")
-async def new_team(context):
+async def newteam(context):
+    server = context.message.author.server
     array = message_to_array(context.message.content)
-    team = array[0]
-    members = array[1:]
+    teamname = array[0]
+    members = []
+    invalid = []
 
-    team = Team(name=team, members=members)
+    for member in array[1:]:
+        if server.get_member_named(member) is not None:
+            members = members + [member]
+        else:
+            invalid += [member]
+
+        if len(invalid) == 1:
+            str = (invalid[0] + " is not a valid discord member tag.")
+        elif len(invalid) > 1:
+            str = ', '.join(invalid)
+            str += " are not valid discord member tags."
+        else:
+            str = ""
+
+    await bot.say(str)
+
+    team = Team(name=teamname, members=members)  # members=members)
     msg = ('New Team Created!\n' + team.to_s())
 
     global teams

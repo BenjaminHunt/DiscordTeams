@@ -94,7 +94,7 @@ async def list_teams():
         await bot.say(str)
 
 @bot.command(name="myteam",
-             aliases=["team"],
+             aliases=["whichteam"],
              brief="Lists your team if you're on one.",
              description="Lists the team the command caller is a member of." +
                          " The bot will also state if the invoker does not belong to a team.",

@@ -6,7 +6,8 @@ TO DO:
 - Playoff bracket
     - !start playoffs (limit permissions) to create bracket, and begin playoffs
         - precondition: all regular season games must be complete (or tied due to no report given)
-
+- !team <team name> to display to_s of team (!teamdetails)
+- Make Team.to_s show team name and record. However, upon creation, a new teams' record should not print
 - Team Players:
     - Players cannot belong to more than one team at a time
     - Players can't be duplicated on one team
@@ -14,7 +15,6 @@ TO DO:
         - and give player the associated role
     - Remove players from team
         - and remove role from player
-    - !myteam to display details of the invoker's team (name, teammates, record, points, place in standings)
 - Report score of game (!report/!result/!score)
 - Permissions - who can do what, for each command and circumstance
 
@@ -26,7 +26,7 @@ Done:
     - Team members must be valid names in channel (i.e. nullidea#3117)
 - Create Match
 - List teams
-
+- !myteam to display details of the invoker's team (name, teammates, record, points, place in standings)
 ___________________________________________________________________________________________________________________
 
 Reach/Low-priority goals:

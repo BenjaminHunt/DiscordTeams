@@ -10,6 +10,10 @@ TO DO:
 - Remove players from team
 - !myteam to display details of the invoker's team (name, teammates, record, points, place in standings)
 - Report score of game (!report/!result/!score)
+- Add Season class
+    - Season has Teams, (Conferences, maybe?), and Matches
+    - !nextseason/!newseason would start a new season with the same conferences/teams
+        - Either pass conferences/teams individually, or pass previous season and pull all needed information
 
 Continuous:
 - Add brief and description to all bot commands

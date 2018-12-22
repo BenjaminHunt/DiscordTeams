@@ -1,6 +1,6 @@
 TO DO:
-- Make teams into discord groups upon creation
-- Link players of teams to actual discord members
+- Make teams into discord groups upon creation (roles)
+    - make add or remove from team, add or remove the associated role
 - Point calculations
 - Standings Generation
 - Playoff bracket
@@ -8,11 +8,14 @@ TO DO:
         - precondition: all regular season games must be complete (or tied due to no report given)
 - Add players to team
 - Remove players from team
-- Add brief and description to all bot commands
 - !myteam to display details of the invoker's team (name, teammates, record, points, place in standings)
-- Report score of game
+- Report score of game (!report/!result/!score)
+
+Continuous:
+- Add brief and description to all bot commands
 
 Done:
 - Create Team
+    - Team members must be valid names in channel (i.e. nullidea#3117)
 - Create Match
 - List teams

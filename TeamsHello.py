@@ -23,18 +23,14 @@ async def hello(context):
     await bot.say('Hello ' + context.message.author.mention)
 
 
-@bot.command(brief="test random things")
-async def test():
-    await bot.say("<@302079469882179585>" + " --called out.")
-
-
-@bot.command(pass_context=True)
-async def repeat(ctx):
-    await bot.say(ctx.message.content)
-
-
 # !newteam <team name>, member1, member2, ..., membern
-@bot.command(pass_context=True, brief="Creates a new team with 0..n players")
+@bot.command(pass_context=True,
+             brief="Creates a new team with 0..n players",
+             description="!newteam makes a new team with a set number of team players." +
+                         " Adding team players are optional, but highly encouraged." +
+                         " Players may be added or removed from a team with the !addplayer or !removeplayer commands." +
+                         " Team members must be part of the discord server." +
+                         "\n\nFormat: !newteam <team name>, <member-1>, <member-2>, ..., <member-n>")
 async def newteam(context):
     server = context.message.author.server
     array = message_to_array(context.message.content)
@@ -43,20 +39,19 @@ async def newteam(context):
     invalid = []
 
     for member in array[1:]:
-        if server.get_member_named(member) is not None:
+        if server.get_member_named(member) is not None:  # check if valid member in the server
             members = members + [member]
         else:
             invalid += [member]
 
+        invalid_response = ""
         if len(invalid) == 1:
-            str = (invalid[0] + " is not a valid discord member tag.")
+            invalid_response = (invalid[0] + " is not a valid discord member tag.")
         elif len(invalid) > 1:
-            str = ', '.join(invalid)
-            str += " are not valid discord member tags."
-        else:
-            str = ""
+            invalid_response = ', '.join(invalid)
+            invalid_response += " are not valid discord member tags."
 
-    await bot.say(str)
+    await bot.say(invalid_response)
 
     team = Team(name=teamname, members=members)  # members=members)
     msg = ('New Team Created!\n' + team.to_s())
@@ -71,6 +66,8 @@ async def newteam(context):
 @bot.command(name="newmatch",
              aliases=["newgame"],
              brief="Schedule a new match.",
+             description="!newmatch schedules a new match between two different teams." +
+                         "\n\nFormat: !newmatch <team1>, <team2>, <mon d yyyy hh:mm(AM/PM)>, <location>",
              pass_context=True)
 async def new_match(context):
     array = message_to_array(context.message.content)
@@ -98,15 +95,21 @@ async def list_teams():
 
 
 @bot.command(name="callben",
-             pass_context=True,
-             brief="@ben")
+             aliases=["null", "callnull", "callnullidea"],
+             brief="This mentions Ben (nullidea) from the bot.",
+             description="This mentions Ben (nullidea from the Teams bot." +
+                         " This was to test the server function, `get_member_named` function. +"
+                         " Eventually, this command should be removed.",
+             pass_context=True)
 async def call_ben(context):
     server = context.message.author.server  # Access server class
     await bot.say(server.get_member_named("nullidea#3117").mention)
 
 
 @bot.command(name="printallmembers",
-             brief="list and mention all members in server")
+             aliases=["allmembers", "members", "thisserver"],
+             brief="list and mention all members in server",
+             description="Lists all members in a server. This command should eventually be removed.")
 async def print_all_members():
     members = bot.get_all_members()
     for member in members:
@@ -135,5 +138,6 @@ def message_to_array(message):
         array[i] = array[i].strip()
         i += 1
     return array
+
 
 bot.run(TOKEN)

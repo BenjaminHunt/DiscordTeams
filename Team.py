@@ -1,6 +1,3 @@
-import array
-from discord.ext import commands
-
 
 class Team:
     def __init__(self, name, members):

@@ -93,6 +93,20 @@ async def list_teams():
         str = str.rstrip(", ")
         await bot.say(str)
 
+@bot.command(name="myteam",
+             aliases=["team"],
+             brief="Lists your team if you're on one.",
+             description="Lists the team the command caller is a member of." +
+                         " The bot will also state if the invoker does not belong to a team.",
+             pass_context=True)
+async def my_team(context):
+    member = str(context.message.author)
+    global teams
+    for team in teams:
+        if member in team.members:
+            await bot.say("Your team: {}".format(team.name))
+            return
+    await bot.say("You are not currently on a team.")
 
 @bot.command(name="callben",
              aliases=["null", "callnull", "callnullidea"],

@@ -6,14 +6,17 @@ TO DO:
 - Playoff bracket
     - !start playoffs (limit permissions) to create bracket, and begin playoffs
         - precondition: all regular season games must be complete (or tied due to no report given)
-- Add players to team
-- Remove players from team
-- !myteam to display details of the invoker's team (name, teammates, record, points, place in standings)
+
+- Team Players:
+    - Players cannot belong to more than one team at a time
+    - Players can't be duplicated on one team
+    - Add players to team
+        - and give player the associated role
+    - Remove players from team
+        - and remove role from player
+    - !myteam to display details of the invoker's team (name, teammates, record, points, place in standings)
 - Report score of game (!report/!result/!score)
-- Add Season class
-    - Season has Teams, (Conferences, maybe?), and Matches
-    - !nextseason/!newseason would start a new season with the same conferences/teams
-        - Either pass conferences/teams individually, or pass previous season and pull all needed information
+- Permissions - who can do what, for each command and circumstance
 
 Continuous:
 - Add brief and description to all bot commands
@@ -23,3 +26,16 @@ Done:
     - Team members must be valid names in channel (i.e. nullidea#3117)
 - Create Match
 - List teams
+
+___________________________________________________________________________________________________________________
+
+Reach/Low-priority goals:
+- Revise the "date/time" feature/requirement of a match
+- Team Captain (recognition and role)
+- Add League class
+    - league has a name, and an associated sport (maybe sport could be optional, or more than one)
+    - leagues have multiple seasons
+- Add Season class
+    - Season has Teams, (Conferences, maybe?), and Matches
+    - !nextseason/!newseason would start a new season with the same conferences/teams
+        - Either pass conferences/teams individually, or pass previous season and pull all needed information

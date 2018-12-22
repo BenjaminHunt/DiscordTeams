@@ -3,7 +3,8 @@ from datetime import datetime
 
 
 class Match:
-    def __init__(self, home, away, dt, location):
+    def __init__(self, id, home, away, dt, location):
+        self.id = id
         self.home = home
         self.away = away
         self.datetime = datetime.strptime(dt, '%b %d %Y %I:%M%p')

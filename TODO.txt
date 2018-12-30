@@ -8,6 +8,7 @@ TO DO:
         - precondition: all regular season games must be complete (or tied due to no report given)
 - !team <team name> to display to_s of team (!teamdetails)
 - Make Team.to_s show team name and record. However, upon creation, a new teams' record should not print
+- No Repeat Team Names
 - Team Players:
     - Players cannot belong to more than one team at a time
     - Players can't be duplicated on one team

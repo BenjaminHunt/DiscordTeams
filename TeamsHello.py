@@ -38,17 +38,17 @@ async def new_team(context):
     array = message_to_array(context.message.content)
     team_name = array[0]
 
-    #role = await bot.create_role(server=server, name=team_name, hoist=True, mentionable=True)  # permissions, color
+    role = await bot.create_role(server=server, name=team_name, hoist=True, mentionable=True)  # permissions, color
     valid_members, invalid_members = validate_members(server, array[1:])
 
-    # for member in valid_members:
-    #    await bot.add_roles(server.get_member_named(member), role)  # add each valid member to team
+    for member in valid_members:
+       await bot.add_roles(server.get_member_named(member), role)  # add each valid member to team
 
     if len(invalid_members) != 0:
         invalid_response = get_invalid_members_response(invalid_members)
         await bot.say(invalid_response)
 
-    team = Team(name=team_name, members=valid_members)  # members=members)
+    team = Team(name=team_name, role=role, members=valid_members)  # members=members)
     msg = ('New Team Created!\n' + team.to_s())
 
     global teams
@@ -70,10 +70,8 @@ async def add_players(context):
     array = message_to_array(context.message.content)
     team_name = array[0]
     team = None
-    team_role = None
 
-    # team.members[0].get_roles
-    # server.roles if == team.name
+    #what is no additional parameters are passed? same for !newteam
 
     valid_members, invalid_members = validate_members(server, array[1:])
 
@@ -89,13 +87,9 @@ async def add_players(context):
         await bot.say("{} is not an existing team.".format(team_name))
         return
 
-    #for r in server.roles:
-    #    if r == team_name:
-    #        team_role = r
-
     for member in valid_members:
         team.add_member(member)
-        #await bot.add_roles(server.get_member_named(member), team_role)  # add each valid member to team
+        await bot.add_roles(server.get_member_named(member), team.discord_role)  # add each valid member to team
 
     print(valid_members)
     print(invalid_members)

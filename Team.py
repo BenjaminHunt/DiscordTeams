@@ -1,7 +1,8 @@
 
 class Team:
-    def __init__(self, name, members):
+    def __init__(self, name, role, members):
         self.name = name
+        self.discord_role = role
         self.members = members
         self.wins = 0
         self.losses = 0

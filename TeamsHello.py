@@ -59,7 +59,7 @@ async def new_team(context):
 
 # !addplayers <team name>, <member1>, ..., <member n>
 @bot.command(name="addplayers",
-             aliases=["addplayer", "addtoteam"],
+             aliases=["addplayer", "addtoteam", "addteam"],
              brief="Adds one or more players to a pre-existing team.",
              description="!addplayers adds one to many players to a pre-existing team. For any action to be taken" +
                          " at least one player must be included." +
@@ -103,6 +103,42 @@ async def add_players(context):
     else:
         msg = "No members added to {}".format(team_name)
     await bot.say(msg)
+
+# !removeteam <member1>, ..., <member n>
+@bot.command(name="removeteam",
+             aliases=["removefromteam", "takeoffteam"],
+             brief="Remove listed player(s) from their team.",
+             description="!removeteam removes one to many players from their team." +
+                         "\n\nFormat: !removeteam <member-1>, <member-2>, ..., <member-n>",
+             pass_context=True)
+async def remove_team(context):
+    server = get_server(context)
+    array = message_to_array(context.message.content)
+
+    response = ""
+
+    valid_members, invalid_members = validate_members(server, array) #array subset correct?
+    no_team_players = []
+
+    str = get_invalid_members_response(invalid_members)
+
+    for player in valid_members:
+        team = get_player_team(player)
+        if team is None:
+            no_team_players += [player]
+        else:
+            team.remove_member(player)
+            await bot.remove_roles(server.get_member_named(player), team.discord_role)
+            response += "\n" + player + " was removed from " + team.name
+
+    if len(no_team_players) == 1:
+        response = (no_team_players[0] + " is not on a team.") + response
+    elif len(invalid_members) > 1:
+        no_team_response = ', '.join(no_team_players[:-1]) + " and " + no_team_players[-1]
+        no_team_response += " are not on a team."
+        response = no_team_response + response
+
+    await bot.say(response)
 
 
 @bot.command(name="roles",
@@ -161,9 +197,6 @@ async def my_team(context):
         await bot.say("You are not currently on a team.")
     else:
         await bot.say("Your team: {}".format(team.name))
-
-
-
 
 
 @bot.command(name="callben",

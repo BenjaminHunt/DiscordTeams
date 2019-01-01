@@ -31,6 +31,6 @@ class Team:
     # not currently used
     def remove_member(self, name):
         if name in self.members:
-            self.members -= [name]
+            self.members.remove(name)
             return True
         return False

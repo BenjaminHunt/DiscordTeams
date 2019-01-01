@@ -91,8 +91,6 @@ async def add_players(context):
         team.add_member(member)
         await bot.add_roles(server.get_member_named(member), team.discord_role)  # add each valid member to team
 
-    print(valid_members)
-    print(invalid_members)
     if len(invalid_members) != 0:
         invalid_response = get_invalid_members_response(invalid_members)
         await bot.say(invalid_response)
@@ -105,8 +103,6 @@ async def add_players(context):
     else:
         msg = "No members added to {}".format(team_name)
     await bot.say(msg)
-
-    print(array)
 
 
 @bot.command(name="roles",
@@ -160,12 +156,14 @@ async def list_teams():
              pass_context=True)
 async def my_team(context):
     member = str(context.message.author)
-    global teams
-    for team in teams:
-        if member in team.members:
-            await bot.say("Your team: {}".format(team.name))
-            return
-    await bot.say("You are not currently on a team.")
+    team = get_player_team(member)
+    if team is None:
+        await bot.say("You are not currently on a team.")
+    else:
+        await bot.say("Your team: {}".format(team.name))
+
+
+
 
 
 @bot.command(name="callben",
@@ -238,6 +236,14 @@ def get_invalid_members_response(invalid_members):
 
 def get_server(context):
     return context.message.author.server
+
+
+def get_player_team(player):
+    global teams
+    for team in teams:
+        if player in team.members:
+            return team
+    return None
 
 
 bot.run(TOKEN)

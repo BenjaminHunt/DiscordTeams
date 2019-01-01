@@ -30,4 +30,7 @@ class Team:
 
     # not currently used
     def remove_member(self, name):
-        return name
+        if name in self.members:
+            self.members -= [name]
+            return True
+        return False

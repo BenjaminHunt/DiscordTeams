@@ -106,7 +106,7 @@ async def add_players(context):
 
 # !removeteam <member1>, ..., <member n>
 @bot.command(name="removeteam",
-             aliases=["removefromteam", "takeoffteam"],
+             aliases=["removefromteam", "takeoffteam", "kickoffteam", "kickfromteam", "fire", "kick"],
              brief="Remove listed player(s) from their team.",
              description="!removeteam removes one to many players from their team." +
                          "\n\nFormat: !removeteam <member-1>, <member-2>, ..., <member-n>",
@@ -115,12 +115,15 @@ async def remove_team(context):
     server = get_server(context)
     array = message_to_array(context.message.content)
 
-    response = ""
+    invalid_response = ""
+    no_team_response = ""
+    removed_response = ""
 
     valid_members, invalid_members = validate_members(server, array) #array subset correct?
     no_team_players = []
 
-    str = get_invalid_members_response(invalid_members)
+    if len(invalid_members) > 0:
+        invalid_response = get_invalid_members_response(invalid_members)
 
     for player in valid_members:
         team = get_player_team(player)
@@ -129,15 +132,17 @@ async def remove_team(context):
         else:
             team.remove_member(player)
             await bot.remove_roles(server.get_member_named(player), team.discord_role)
-            response += "\n" + player + " was removed from " + team.name
+            removed_response += "\n" + player + " was removed from " + team.name
+
 
     if len(no_team_players) == 1:
-        response = (no_team_players[0] + " is not on a team.") + response
-    elif len(invalid_members) > 1:
+        no_team_response = (no_team_players[0] + " is not on a team.")
+    elif len(no_team_players) > 1:
         no_team_response = ', '.join(no_team_players[:-1]) + " and " + no_team_players[-1]
         no_team_response += " are not on a team."
-        response = no_team_response + response
 
+    responses = [invalid_response, no_team_response, removed_response]
+    response = "\n".join(responses)
     await bot.say(response)
 
 
@@ -262,6 +267,7 @@ def get_invalid_members_response(invalid_members):
     elif len(invalid_members) > 1:
         invalid_response = ', '.join(invalid_members[:-1]) + " and " + invalid_members[-1]
         invalid_response += " are not valid discord member tags."
+        return invalid_response
     else:
         return "No invalid members. This line shouldn't be hit?"
     return invalid_response

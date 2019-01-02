@@ -19,6 +19,10 @@ TO DO:
 - Report score of game (!report/!result/!score)
 - Permissions - who can do what, for each command and circumstance
 
+Bugs:
+- BUG-ish thing: commands can work without their number tag at the end of their names.
+    ...This should either be trimmed or required as full.
+
 Continuous:
 - Add brief and description to all bot commands
 

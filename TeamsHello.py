@@ -173,6 +173,27 @@ async def new_match(context):
     await bot.say(msg)
 
 
+@bot.command(name="deleteteam",
+             aliases=["killteam", "delete"],
+             brief="Remove a team from a league.",
+             description="Removes a created team and the associated discord role.",
+             pass_context=True)
+async def delete_team(context):
+    array = message_to_array(context.message.content)
+    server = get_server(context)
+    team_name = array[0]
+
+    team = get_team(team_name)
+    if team is not None:
+        discord_role = team.discord_role
+        await bot.say(discord_role.mention + " was removed.")
+        await bot.delete_role(server, discord_role)
+        teams.remove(team)
+        return
+    await bot.say(team_name + " is not an existing team.")
+
+
+
 @bot.command(name="listteams",
              aliases=["allteams", "showteams", "teams"],
              brief="lists all teams in the league",
@@ -263,6 +284,14 @@ def get_invalid_members_response(invalid_members):
 
 def get_server(context):
     return context.message.author.server
+
+
+def get_team(team_name):
+    global teams
+    for team in teams:
+        if team_name == team.name:
+            return team
+    return None
 
 
 def get_player_team(player):

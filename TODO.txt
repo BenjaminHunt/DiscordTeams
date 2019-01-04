@@ -1,8 +1,7 @@
 TO DO:
 - Add `game_wins` and `game_losses` and change wins and losses to `match_wins` and `match_losses`
 - Change DateTime for match to string
-- Delete Team
-    - delete associated role
+- Choice: Should `removeteam`, `deleteteam` remove an existing team, or remove a player from the team?
 - Point calculations
 - Standings Generation
 - Playoff bracket
@@ -14,10 +13,6 @@ TO DO:
 - Team Players:
     - Players cannot belong to more than one team at a time
     - Players can't be duplicated on one team
-    - Add players to team
-        - and give player the associated role
-    - Remove players from team
-        - and remove role from player
 - Report score of game (!report/!result/!score)
 - Permissions - who can do what, for each command and circumstance
 
@@ -32,9 +27,16 @@ Done:
 - Create Team
     - Team members must be valid names in channel (i.e. nullidea#3117)
     - Create a role for the team, add members to the role
-- Create Match
+- Create Match (Changes expected)
+- Team Plyers
+    - Addplayers to team
+        - Add associated role upon add
+    - Remove players from team
+        - Remove associated role
 - List teams
 - !myteam to display details of the invoker's team (name, teammates, record, points, place in standings)
+- Delete Team
+    - delete associated role
 ___________________________________________________________________________________________________________________
 
 Reach/Low-priority goals:

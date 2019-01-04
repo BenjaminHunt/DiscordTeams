@@ -1,4 +1,5 @@
 TO DO:
+- Add `game_wins` and `game_losses` and change wins and losses to `match_wins` and `match_losses`
 - Delete Team
     - delete associated role
 - Point calculations
@@ -6,7 +7,7 @@ TO DO:
 - Playoff bracket
     - !start playoffs (limit permissions) to create bracket, and begin playoffs
         - precondition: all regular season games must be complete (or tied due to no report given)
-- !team <team name> to display to_s of team (!teamdetails)
+- !teaminfo/details <team name> to display to_s of team (!teamdetails)
 - Make Team.to_s show team name and record. However, upon creation, a new teams' record should not print
 - No Repeat Team Names
 - Team Players:

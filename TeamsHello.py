@@ -190,7 +190,7 @@ async def list_teams():
 
 
 @bot.command(name="myteam",
-             aliases=["whichteam"],
+             aliases=["team", "whichteam"],
              brief="Lists your team if you're on one.",
              description="Lists the team the command caller is a member of." +
                          " The bot will also state if the invoker does not belong to a team.",
@@ -202,18 +202,6 @@ async def my_team(context):
         await bot.say("You are not currently on a team.")
     else:
         await bot.say("Your team: {}".format(team.name))
-
-
-@bot.command(name="callben",
-             aliases=["null", "callnull", "callnullidea"],
-             brief="This mentions Ben (nullidea) from the bot.",
-             description="This mentions Ben (nullidea from the Teams bot." +
-                         " This was to test the server function, `get_member_named` function. +"
-                         " Eventually, this command should be removed.",
-             pass_context=True)
-async def call_ben(context):
-    server = get_server(context)  # Access server class
-    await bot.say(server.get_member_named("nullidea#3117").mention)
 
 
 @bot.command(name="printallmembers",

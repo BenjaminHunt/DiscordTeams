@@ -25,6 +25,7 @@ async def hello(context):
 
 # !newteam <team name>, member1, member2, ..., membern
 @bot.command(name="newteam",
+             aliases=["createteam"],
              brief="Creates a new team with 0..n players",
              description="!newteam makes a new team with a set number of team players, and creates a new role for" +
                          " the team that can be mentioned (or called) to notify all team members." +
@@ -193,7 +194,6 @@ async def delete_team(context):
     await bot.say(team_name + " is not an existing team.")
 
 
-
 @bot.command(name="listteams",
              aliases=["allteams", "showteams", "teams"],
              brief="lists all teams in the league",
@@ -235,6 +235,26 @@ async def print_all_members():
         await bot.say(member)  # member.mention mentions member (@)
         global people
         people += [member]
+
+
+@bot.command(name="deleteteams",
+             aliases=["deleteallteams", "killallteams", "killteams", "noteams"],
+             brief="removes all teams in the league",
+             description="Removes all teams and team-purpose roles from the league.",
+             pass_context=True)
+async def deleteteams(context):
+    server = get_server(context)
+    global teams
+    while len(teams) > 0:
+        await bot.say("This function is a little broken, but it'll get the job done, no problem.")
+        for team in teams:
+            discord_role = team.discord_role
+            await bot.say(discord_role.mention + " was removed.")  # TODO: Remove this line and say all removed
+            await bot.delete_role(server, discord_role)
+            teams.remove(team)  # todo: this may be broken?
+        await bot.say("All teams have been removed.")
+    else:
+        await bot.say("There are no teams in the league.")
 
 
 # ####################################################################################################

@@ -39,6 +39,10 @@ async def new_team(context):
     array = message_to_array(context.message.content)
     team_name = array[0]
 
+    if get_team(team_name) is not None:
+        await bot.say("This team name is already taken.")
+        return
+
     role = await bot.create_role(server=server, name=team_name, hoist=True, mentionable=True)  # permissions, color
     valid_members, invalid_members = validate_members(server, array[1:])
 
@@ -237,6 +241,7 @@ async def print_all_members():
         people += [member]
 
 
+# TODO: Fix this jank af command
 @bot.command(name="deleteteams",
              aliases=["deleteallteams", "killallteams", "killteams", "noteams"],
              brief="removes all teams in the league",

@@ -5,7 +5,8 @@ from discord.ext import commands
 import random
 import sys
 
-global game
+global games
+games = []
 
 
 class SixManGame:
@@ -16,6 +17,9 @@ class SixManGame:
     async def teardown(self):
         await self.home_team.teardown()
         await self.away_team.teardown()
+
+    def has_player(self, player):
+        return player in self.home_team.get_players() or player in self.away_team.get_players()
 
 
 class SixManTeam:
@@ -62,6 +66,9 @@ def run():
     async def start_six_mans(context):
         player_pool = bot.get_channel(waiting_room_voice_id).members
 
+        if len(player_pool) <= 0:
+            return None
+
         six_mans_category = bot.get_channel(six_man_cat_id)
         waiting_room = bot.get_channel(waiting_room_voice_id)
         home_voice = await six_mans_category.create_voice_channel(name="Orange Team")
@@ -70,8 +77,8 @@ def run():
         home_team = SixManTeam(waiting_room, home_voice)
         away_team = SixManTeam(waiting_room, away_voice)
 
-        global game
-        game = SixManGame(home=home_team, away=away_team)
+        global games
+        games.append(SixManGame(home=home_team, away=away_team))
 
         num_players = len(player_pool) if len(player_pool) < 6 else 6
         for i in range(0, num_players):
@@ -83,7 +90,10 @@ def run():
     @bot.command(name="game_over", aliases=["gameover", "gg", "ggs", "done"], brief="Regroup Teams",
                  help="Moves all 6-man players back into the waiting room", pass_context=True)
     async def game_over(context):
-        await game.teardown()
+        player = context.message.author
+        for game in games:
+            if game.has_player(player):
+                await game.teardown()
 
     bot.run(token)
 
